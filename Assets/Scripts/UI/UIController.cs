@@ -27,10 +27,23 @@ public class UIController : MonoBehaviour {
 
         for(int p=0;p<turn.Players.Length;p++){
             var pl = turn.Players[p];
-            for(int i=0;i<3;i++){ var m = deck.DrawMenu(); if (m!=null) pl.MenuHand.Add(m); }
+            // HAPUS BARIS INI:
+            // for(int i=0;i<3;i++){ var m = deck.DrawMenu(); if (m!=null) pl.MenuHand.Add(m); } 
+            
+            // Baris-baris ini biarkan (untuk inventory & customer pribadi)
             for(int i=0;i<6;i++){ var ing = deck.DrawIng(); if (ing.HasValue) pl.Add(ing.Value,1); }
             for(int i=0;i<2;i++){ var cc = deck.DrawCust(); if (cc!=null) pl.CustHand.Add(cc); }
         }
+
+        // TAMBAHKAN BLOK INI:
+        // Ambil referensi ke daftar bersama (bisa dari pemain mana saja)
+        var menuHand = turn.Players[0].MenuHand;
+        // Isi daftar bersama satu kali (misal 5 kartu)
+        for(int i=0;i<5;i++){ 
+            var m = deck.DrawMenu(); 
+            if (m!=null) menuHand.Add(m); 
+        }
+
 
         EndTurnButton.onClick.AddListener(()=>{ turn.Next(); Refresh(); });
         Refresh();
@@ -40,6 +53,8 @@ public class UIController : MonoBehaviour {
         var pl = turn.Players[turn.Active];
         Clear(MenuPanel); Clear(CustomerPanel); Clear(CookedPanel); Clear(IngredientPanel);
 
+        // Baris ini sekarang akan menampilkan 'sharedMenuHand'
+        // karena pl.MenuHand menunjuk ke sana.
         foreach (var m in pl.MenuHand)
             Instantiate(MenuCardPrefab, MenuPanel).Bind(m, pl, cooking, this);
 

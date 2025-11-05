@@ -2,7 +2,8 @@ using System.Collections.Generic;
 
 public class PlayerState {
     public int Index;
-    public List<MenuCardData> MenuHand = new();
+    // Hapus "= new()" agar kita bisa mengaturnya dari luar
+    public List<MenuCardData> MenuHand; 
     public List<CustomerCardData> CustHand = new();
     public List<MenuCardData> Cooked = new();
     public Dictionary<Ingredient,int> Inv = new() {
