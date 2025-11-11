@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 64010f8d792c1004eb2b2e323a39757f
+guid: 5b8bbcab61ff011468ad2f6cda7c0ef0
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 1717837121202316445
-    second: settings_24dp_E3E3E3_FILL0_wght400_GRAD0_opsz24_0
+      213: 3872462812353058782
+    second: processed_IMG-20250819-WA0046_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -113,13 +113,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: settings_24dp_E3E3E3_FILL0_wght400_GRAD0_opsz24_0
+      name: processed_IMG-20250819-WA0046_0
       rect:
         serializedVersion: 2
-        x: 1
-        y: 1
-        width: 22
-        height: 22
+        x: 0
+        y: 0
+        width: 926
+        height: 774
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -128,8 +128,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: d946e3f92cbf6d710800000000000000
-      internalID: 1717837121202316445
+      spriteID: ed7d6302960cdb530800000000000000
+      internalID: 3872462812353058782
       vertices: []
       indices: 
       edges: []
@@ -148,7 +148,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      settings_24dp_E3E3E3_FILL0_wght400_GRAD0_opsz24_0: 1717837121202316445
+      processed_IMG-20250819-WA0046_0: 3872462812353058782
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
