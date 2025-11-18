@@ -14,47 +14,49 @@ public class UIController : MonoBehaviour {
     public RectTransform CookedPanel;
     public RectTransform IngredientPanel;
     public RectTransform CustomerPanel;
+    public RectTransform DraftPanel; 
     public Button EndTurnButton;
 
     [Header("Prefabs")]
     public MenuCardUI MenuCardPrefab;
     public CustomerCardUI CustomerCardPrefab;
     public IngredientCounterUI IngredientCounterPrefab;
+    public Button DraftCardPrefab; 
 
     void Start(){
+        turn.uiController = this; 
         turn.Init();
-        deck.Init();
-
-        for(int p=0;p<turn.Players.Length;p++){
-            var pl = turn.Players[p];
-            // HAPUS BARIS INI:
-            // for(int i=0;i<3;i++){ var m = deck.DrawMenu(); if (m!=null) pl.MenuHand.Add(m); } 
-            
-            // Baris-baris ini biarkan (untuk inventory & customer pribadi)
-            for(int i=0;i<6;i++){ var ing = deck.DrawIng(); if (ing.HasValue) pl.Add(ing.Value,1); }
-            for(int i=0;i<2;i++){ var cc = deck.DrawCust(); if (cc!=null) pl.CustHand.Add(cc); }
-        }
-
-        // TAMBAHKAN BLOK INI:
-        // Ambil referensi ke daftar bersama (bisa dari pemain mana saja)
-        var menuHand = turn.Players[0].MenuHand;
-        // Isi daftar bersama satu kali (misal 5 kartu)
-        for(int i=0;i<5;i++){ 
-            var m = deck.DrawMenu(); 
-            if (m!=null) menuHand.Add(m); 
-        }
-
-
         EndTurnButton.onClick.AddListener(()=>{ turn.Next(); Refresh(); });
         Refresh();
+        turn.HandleTurn(); 
     }
 
     public void Refresh(){
         var pl = turn.Players[turn.Active];
-        Clear(MenuPanel); Clear(CustomerPanel); Clear(CookedPanel); Clear(IngredientPanel);
+        
+        Clear(MenuPanel); Clear(CustomerPanel); Clear(CookedPanel); Clear(IngredientPanel); Clear(DraftPanel);
 
-        // Baris ini sekarang akan menampilkan 'sharedMenuHand'
-        // karena pl.MenuHand menunjuk ke sana.
+        if(turn.Current == Phase.Drafting){
+            DraftPanel.gameObject.SetActive(true);
+            EndTurnButton.gameObject.SetActive(false);
+            var hand = turn.DraftHands[turn.Active];
+
+            if (pl.IsAI == false){ 
+                foreach(var card in hand){
+                    var btn = Instantiate(DraftCardPrefab, DraftPanel);
+                    btn.GetComponentInChildren<TMPro.TMP_Text>().text = card.ToString();
+                    btn.onClick.AddListener(()=> {
+                        turn.DraftPick(turn.Active, card);
+                    });
+                }
+            }
+        } else {
+            DraftPanel.gameObject.SetActive(false);
+            EndTurnButton.gameObject.SetActive(turn.Current == Phase.Cooking && pl.IsAI == false);
+        }
+        
+        // Tampilkan semua kartu/inventori untuk player aktif
+        
         foreach (var m in pl.MenuHand)
             Instantiate(MenuCardPrefab, MenuPanel).Bind(m, pl, cooking, this);
 
@@ -69,17 +71,54 @@ public class UIController : MonoBehaviour {
 
         foreach (var kv in pl.Inv.Where(kv=>kv.Value>0))
             Instantiate(IngredientCounterPrefab, IngredientPanel).Set(kv.Key, kv.Value);
+            
+        // TODO: Tambahkan logic UI untuk menampilkan Phase.Scoring
+        if (turn.Current == Phase.Scoring) {
+            Debug.Log("Game Selesai. Pemenang: Hitung VP tertinggi.");
+            // Di sini Anda bisa memanggil LeaderboardManager.OpenPanel()
+        }
     }
 
     public void UseCustomer(PlayerState self, CustomerCardData c){
-        if (c.Effect.StartsWith("Draw:")){
-            var keyStr = c.Effect.Split(':')[1];
-            if (System.Enum.TryParse<Ingredient>(keyStr, out var key)) self.Add(key,1);
-            else { var ing = deck.DrawIng(); if(ing.HasValue) self.Add(ing.Value,1); }
-        } else if (c.Effect=="VP:+3" || c.Effect=="VP:+2"){
-            self.VP += c.VP;
+        if(c.Effect.StartsWith("Add:")){
+            var ingName = c.Effect.Split(':')[1];
+            if(System.Enum.TryParse<Ingredient>(ingName, out var ing)) self.Add(ing, 1);
         }
-        self.CustHand.Remove(c);
+        else if(c.Effect == "Draw2Keep1"){
+            var i1 = deck.DrawIng();
+            var i2 = deck.DrawIng();
+            if(i1.HasValue) self.Add(i1.Value, 1);
+        }
+        else if(c.Effect == "StealIng"){
+            int targetIdx = (self.Index + 1) % turn.PlayerCount; 
+            var target = turn.Players[targetIdx];
+            bool blocked = target.CustHand.Any(x => x.Effect == "BlockSteal");
+            
+            if(!blocked && target.Inv.Any(kv=>kv.Value>0)){
+                var key = target.Inv.First(kv=>kv.Value>0).Key; 
+                target.Spend(key, 1);
+                self.Add(key, 1);
+            }
+        }
+        else if(c.Effect == "StealSkill"){
+             int targetIdx = (self.Index + 1) % turn.PlayerCount;
+             var target = turn.Players[targetIdx];
+             bool blocked = target.CustHand.Any(x => x.Effect == "BlockSteal");
+
+             if(!blocked && target.CustHand.Count > 0){
+                 var stolen = target.CustHand.First(x=>!x.Effect.StartsWith("VP:")); 
+                 target.CustHand.Remove(stolen);
+                 self.CustHand.Add(stolen);
+             }
+        }
+        else if (c.Effect == "Swap"){
+            // Logic ini perlu penambahan UI interaktif.
+        }
+        
+        if(!c.Effect.StartsWith("VP:") && c.Effect != "BlockSteal" && c.Effect != "Swap"){
+            self.CustHand.Remove(c);
+        }
+        
         Refresh();
     }
 
