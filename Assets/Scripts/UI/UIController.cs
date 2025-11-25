@@ -1,3 +1,4 @@
+//using System.Diagnostics;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
@@ -28,7 +29,7 @@ public class UIController : MonoBehaviour {
         turn.Init();
         EndTurnButton.onClick.AddListener(()=>{ turn.Next(); Refresh(); });
         Refresh();
-        turn.HandleTurn(); 
+        //turn.HandleTurn(); 
     }
 
     public void Refresh(){
@@ -41,10 +42,23 @@ public class UIController : MonoBehaviour {
             EndTurnButton.gameObject.SetActive(false);
             var hand = turn.DraftHands[turn.Active];
 
-            if (pl.IsAI == false){ 
-                foreach(var card in hand){
+            if (pl.IsAI == false){
+                if (hand.Count == 0)
+                {
+                    Debug.LogError("BUG: Player diminta draft, tapi tangan kosong! Memaksa EndDrafting...");
+                    // Opsional: Panggil fungsi di TurnManager untuk force stop, atau tampilkan pesan error
+                    // turn.ForceEndDrafting(); 
+                    return;
+                }
+                foreach (var card in hand){
                     var btn = Instantiate(DraftCardPrefab, DraftPanel);
-                    btn.GetComponentInChildren<TMPro.TMP_Text>().text = card.ToString();
+                    var txt = btn.GetComponentInChildren<TMPro.TMP_Text>();
+                    if (txt != null) txt.text = card.ToString();
+                    //btn.GetComponentInChildren<TMPro.TMP_Text>().text = card.ToString();
+
+                    // COPY CAPTURE VARIABLE:
+                    // Untuk keamanan di loop lambda (meski C# baru aman, ini best practice Unity lama)
+                    var cardRef = card;
                     btn.onClick.AddListener(()=> {
                         turn.DraftPick(turn.Active, card);
                     });

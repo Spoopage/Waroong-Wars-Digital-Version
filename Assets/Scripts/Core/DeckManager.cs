@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+//using System.Diagnostics;
 using UnityEngine;
 using Random = System.Random;
 
@@ -80,6 +81,12 @@ public class DeckManager : MonoBehaviour {
         for(int i=a.Count-1; i>0; i--){ int j=r.Next(i+1); (a[i], a[j]) = (a[j], a[i]); }
     }
     static IEnumerable<Ingredient> Fill(Ingredient k, int n){ for(int i=0; i<n; i++) yield return k; }
+
+    public void RefillIngredients()
+    {
+        Debug.Log("DeckManager: Refilling Ingredient Deck (Reshuffle)");
+        ingDeck = BuildIng(); // Membuat ulang tumpukan ingredient penuh
+    }
 
     MenuCardData Menu(string name, int vp, (Ingredient, int) req, params (Ingredient, int)[] more){
         var m = new MenuCardData{ Name=name, BaseVP=vp };
