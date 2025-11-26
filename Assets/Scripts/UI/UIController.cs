@@ -2,12 +2,19 @@
 using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro; // Pastikan ini ada jika belum ada!
 
 public class UIController : MonoBehaviour {
     [Header("Refs")]
     public TurnManager turn;
     public DeckManager deck;
     public CookingSystem cooking;
+
+    [Header("Turn UI")] // Tambahkan header baru ini
+    public TMP_Text TurnInfoText;
+
+    [Header("Leaderboard Refs")]
+    public LeaderboardManager leaderboard;
 
     [Header("Panels")]
     public RectTransform DeckPanel;
@@ -35,6 +42,43 @@ public class UIController : MonoBehaviour {
     public void Refresh(){
         var pl = turn.Players[turn.Active];
         
+        string phaseIndonesian;
+        switch(turn.Current){
+            case Phase.Setup: phaseIndonesian = "Setup"; break;
+            case Phase.Drafting: phaseIndonesian = "Drafting"; break;
+            case Phase.Cooking: phaseIndonesian = "Memasak"; break;
+            case Phase.Scoring: phaseIndonesian = "Penghitungan Skor"; break;
+            default: phaseIndonesian = turn.Current.ToString(); break;
+        }
+
+        string activeCharacter = pl.Character.ToString();
+        // Menentukan apakah pemain aktif adalah pemain manusia atau AI
+        string playerType = pl.IsAI ? "(AI)" : "(Pemain)"; 
+
+        // Menggabungkan semua informasi
+        string turnText = $"Ronde {turn.RoundNumber} | Fase: {phaseIndonesian}\nGiliran: {activeCharacter} {playerType}";
+        
+        // Menampilkan teks di UI
+        if (TurnInfoText != null) {
+            TurnInfoText.text = turnText;
+        }
+        
+        if (turn.Current == Phase.Scoring) { //
+            Debug.Log("Game Selesai. Pemenang: Hitung VP tertinggi.");
+            // Panggil LeaderboardManager
+            if (leaderboard != null) 
+            {
+                leaderboard.OpenPanel();
+                leaderboard.DisplayScores(turn.Players); // Kirim data pemain ke leaderboard
+            }
+        } else { 
+            // Tambahkan ini untuk memastikan leaderboard tertutup jika game berlanjut
+            if (leaderboard != null && leaderboard.leaderboardPanel.activeSelf)
+            {
+                leaderboard.ClosePanel();
+            }
+        }
+
         Clear(MenuPanel); Clear(CustomerPanel); Clear(CookedPanel); Clear(IngredientPanel); Clear(DraftPanel);
 
         if(turn.Current == Phase.Drafting){
