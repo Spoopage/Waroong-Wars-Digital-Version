@@ -282,8 +282,8 @@ MonoBehaviour:
         m_MethodName: OnEmojiClicked
         m_Mode: 2
         m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.UI.Image, UnityEngine.UI
+          m_ObjectArgument: {fileID: 24376411}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.GameObject, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -2357,6 +2357,7 @@ RectTransform:
   - {fileID: 1243468172}
   - {fileID: 288862253}
   - {fileID: 1784374728}
+  - {fileID: 985655254}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -2488,6 +2489,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::EmojiManager
   emojiWheelPanel: {fileID: 1041383807}
   clickAwayBlockerButton: {fileID: 71373497}
+  emojiPrefab: {fileID: 1519419778997826542, guid: a6d7f194bcc228e4e86f74196f7c5b21, type: 3}
+  emojiSpawnPoint: {fileID: 985655254}
+  emojiSpacing: 80
+  maxEmojiCount: 4
+  emojiDuration: 3
 --- !u!114 &619435057
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3858,6 +3864,41 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 894801913}
   m_CullTransparentMesh: 1
+--- !u!1 &985655253
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 985655254}
+  m_Layer: 5
+  m_Name: EmojiSpawnPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &985655254
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 985655253}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 575331964}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 885, y: 213}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1004361983
 GameObject:
   m_ObjectHideFlags: 0
@@ -4477,8 +4518,8 @@ MonoBehaviour:
         m_MethodName: OnEmojiClicked
         m_Mode: 2
         m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.UI.Image, UnityEngine.UI
+          m_ObjectArgument: {fileID: 1168044463}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.GameObject, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -5616,7 +5657,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1407217666}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 619435056}
+        m_TargetAssemblyTypeName: EmojiManager, Assembly-CSharp
+        m_MethodName: ToggleEmojiWheel
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1407217666
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5669,6 +5722,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::EmojiManager
   emojiWheelPanel: {fileID: 1041383807}
   clickAwayBlockerButton: {fileID: 71373497}
+  emojiPrefab: {fileID: 0}
+  emojiSpawnPoint: {fileID: 0}
+  emojiSpacing: 80
+  maxEmojiCount: 4
+  emojiDuration: 3
 --- !u!1 &1425150783
 GameObject:
   m_ObjectHideFlags: 0
@@ -6161,8 +6219,8 @@ MonoBehaviour:
         m_MethodName: OnEmojiClicked
         m_Mode: 2
         m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.UI.Image, UnityEngine.UI
+          m_ObjectArgument: {fileID: 1461711901}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.GameObject, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -8105,8 +8163,8 @@ MonoBehaviour:
         m_MethodName: OnEmojiClicked
         m_Mode: 2
         m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.UI.Image, UnityEngine.UI
+          m_ObjectArgument: {fileID: 1997114718}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.GameObject, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
