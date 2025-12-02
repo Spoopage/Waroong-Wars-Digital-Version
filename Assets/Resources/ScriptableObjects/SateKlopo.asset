@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 0}
+  m_Name: SateKlopo
+  m_EditorClassIdentifier: Assembly-CSharp::MenuCardSO
+  menuName: Sate Klopo
+  baseVP: 7
+  quantityInDeck: 2
+  icon: {fileID: -6894675908080793875, guid: e1ad3aecc18f86344bec051ecba5f56d, type: 3}
+  requirements:
+  - ingredient: 0
+    amount: 1
+  - ingredient: 1
+    amount: 3
+  - ingredient: 3
+    amount: 1
+  optionalBonuses: []

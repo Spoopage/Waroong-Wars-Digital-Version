@@ -1,199 +1,208 @@
-//using System.Diagnostics;
+using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
-using TMPro; // Pastikan ini ada jika belum ada!
+using TMPro;
 
-public class UIController : MonoBehaviour {
-    [Header("Refs")]
+public class UIController : MonoBehaviour
+{
+    [Header("Manager Refs")]
     public TurnManager turn;
     public DeckManager deck;
     public CookingSystem cooking;
 
-    [Header("Turn UI")] // Tambahkan header baru ini
+    [Header("UI Containers")]
+    public Transform MarketPanel;
+    public Transform PlayerHandPanel;
+    public Transform PlayerCustPanel;
+    public Transform DraftPanel;
+
     public TMP_Text TurnInfoText;
-
-    [Header("Leaderboard Refs")]
-    public LeaderboardManager leaderboard;
-
-    [Header("Panels")]
-    public RectTransform DeckPanel;
-    public RectTransform MenuPanel;
-    public RectTransform CookedPanel;
-    public RectTransform IngredientPanel;
-    public RectTransform CustomerPanel;
-    public RectTransform DraftPanel; 
     public Button EndTurnButton;
 
     [Header("Prefabs")]
     public MenuCardUI MenuCardPrefab;
+    public IngredientCounterUI IngCardPrefab;
+    public Button DraftCardPrefab;
     public CustomerCardUI CustomerCardPrefab;
-    public IngredientCounterUI IngredientCounterPrefab;
-    public Button DraftCardPrefab; 
 
-    void Start(){
-        turn.uiController = this; 
-        turn.Init();
-        EndTurnButton.onClick.AddListener(()=>{ turn.Next(); Refresh(); });
-        Refresh();
-        //turn.HandleTurn(); 
-    }
+    [Header("Visuals")]
+    public FloatingText floatingTextPrefab;
+    public GameObject GameOverPanel;
+    public TMP_Text WinnerText;
 
-    void Update()
+    private Coroutine draftAnimCoroutine;
+
+    void Start()
     {
-        // Cek jika tombol TAB ditekan (untuk menampilkan/menyembunyikan live leaderboard)
-        if (Input.GetKeyDown(KeyCode.Tab))
-        {
-            // Panggil fungsi toggle yang sekaligus merefresh data skor
-            leaderboard.ToggleAndRefresh(turn.Players);
-        }
-
-        // Cek jika tombol ESCAPE ditekan (untuk menyembunyikan leaderboard live)
-        // Jika sedang di fase Scoring, leaderboard tidak akan ditutup oleh ESC
-        else if (Input.GetKeyDown(KeyCode.Escape))
-        {
-            if (leaderboard.leaderboardPanel.activeSelf && turn.Current != Phase.Scoring)
-            {
-                leaderboard.ClosePanel();
-            }
-        }
-    }
-
-    public void Refresh(){
-        var pl = turn.Players[turn.Active];
-        
-        string phaseIndonesian;
-        switch(turn.Current){
-            case Phase.Setup: phaseIndonesian = "Setup"; break;
-            case Phase.Drafting: phaseIndonesian = "Drafting"; break;
-            case Phase.Cooking: phaseIndonesian = "Memasak"; break;
-            case Phase.Scoring: phaseIndonesian = "Penghitungan Skor"; break;
-            default: phaseIndonesian = turn.Current.ToString(); break;
-        }
-
-        string activeCharacter = pl.Character.ToString();
-        // Menentukan apakah pemain aktif adalah pemain manusia atau AI
-        string playerType = pl.IsAI ? "(AI)" : "(Pemain)"; 
-
-        // Menggabungkan semua informasi
-        string turnText = $"Ronde {turn.RoundNumber} | Fase: {phaseIndonesian}\nGiliran: {activeCharacter} {playerType}";
-        
-        // Menampilkan teks di UI
-        if (TurnInfoText != null) {
-            TurnInfoText.text = turnText;
-        }
-        
-        if (turn.Current == Phase.Scoring) { //
-            Debug.Log("Game Selesai. Pemenang: Hitung VP tertinggi.");
-            // Panggil LeaderboardManager
-            if (leaderboard != null) 
-            {
-                leaderboard.OpenPanel();
-                // PERUBAHAN: Set isFinalScoring menjadi TRUE
-                leaderboard.DisplayScores(turn.Players, true); // Kirim data pemain ke leaderboard
-            }
-        }
-
-        Clear(MenuPanel); Clear(CustomerPanel); Clear(CookedPanel); Clear(IngredientPanel); Clear(DraftPanel);
-
-        if(turn.Current == Phase.Drafting){
-            DraftPanel.gameObject.SetActive(true);
-            EndTurnButton.gameObject.SetActive(false);
-            var hand = turn.DraftHands[turn.Active];
-
-            if (pl.IsAI == false){
-                if (hand.Count == 0)
-                {
-                    Debug.LogError("BUG: Player diminta draft, tapi tangan kosong! Memaksa EndDrafting...");
-                    // Opsional: Panggil fungsi di TurnManager untuk force stop, atau tampilkan pesan error
-                    // turn.ForceEndDrafting(); 
-                    return;
-                }
-                foreach (var card in hand){
-                    var btn = Instantiate(DraftCardPrefab, DraftPanel);
-                    var txt = btn.GetComponentInChildren<TMPro.TMP_Text>();
-                    if (txt != null) txt.text = card.ToString();
-                    //btn.GetComponentInChildren<TMPro.TMP_Text>().text = card.ToString();
-
-                    // COPY CAPTURE VARIABLE:
-                    // Untuk keamanan di loop lambda (meski C# baru aman, ini best practice Unity lama)
-                    var cardRef = card;
-                    btn.onClick.AddListener(()=> {
-                        turn.DraftPick(turn.Active, card);
-                    });
-                }
-            }
-        } else {
-            DraftPanel.gameObject.SetActive(false);
-            EndTurnButton.gameObject.SetActive(turn.Current == Phase.Cooking && pl.IsAI == false);
-        }
-        
-        // Tampilkan semua kartu/inventori untuk player aktif
-        
-        foreach (var m in pl.MenuHand)
-            Instantiate(MenuCardPrefab, MenuPanel).Bind(m, pl, cooking, this);
-
-        foreach (var c in pl.CustHand)
-            Instantiate(CustomerCardPrefab, CustomerPanel).Bind(c, pl, this);
-
-        foreach (var m in pl.Cooked){
-            var item = Instantiate(IngredientCounterPrefab, CookedPanel);
-            item.Set((Ingredient)999, 0); 
-            item.label.text = m.Name;
-        }
-
-        foreach (var kv in pl.Inv.Where(kv=>kv.Value>0))
-            Instantiate(IngredientCounterPrefab, IngredientPanel).Set(kv.Key, kv.Value);
-            
-        // TODO: Tambahkan logic UI untuk menampilkan Phase.Scoring
-        if (turn.Current == Phase.Scoring) {
-            Debug.Log("Game Selesai. Pemenang: Hitung VP tertinggi.");
-            // Di sini Anda bisa memanggil LeaderboardManager.OpenPanel()
-        }
-    }
-
-    public void UseCustomer(PlayerState self, CustomerCardData c){
-        if(c.Effect.StartsWith("Add:")){
-            var ingName = c.Effect.Split(':')[1];
-            if(System.Enum.TryParse<Ingredient>(ingName, out var ing)) self.Add(ing, 1);
-        }
-        else if(c.Effect == "Draw2Keep1"){
-            var i1 = deck.DrawIng();
-            var i2 = deck.DrawIng();
-            if(i1.HasValue) self.Add(i1.Value, 1);
-        }
-        else if(c.Effect == "StealIng"){
-            int targetIdx = (self.Index + 1) % turn.PlayerCount; 
-            var target = turn.Players[targetIdx];
-            bool blocked = target.CustHand.Any(x => x.Effect == "BlockSteal");
-            
-            if(!blocked && target.Inv.Any(kv=>kv.Value>0)){
-                var key = target.Inv.First(kv=>kv.Value>0).Key; 
-                target.Spend(key, 1);
-                self.Add(key, 1);
-            }
-        }
-        else if(c.Effect == "StealSkill"){
-             int targetIdx = (self.Index + 1) % turn.PlayerCount;
-             var target = turn.Players[targetIdx];
-             bool blocked = target.CustHand.Any(x => x.Effect == "BlockSteal");
-
-             if(!blocked && target.CustHand.Count > 0){
-                 var stolen = target.CustHand.First(x=>!x.Effect.StartsWith("VP:")); 
-                 target.CustHand.Remove(stolen);
-                 self.CustHand.Add(stolen);
-             }
-        }
-        else if (c.Effect == "Swap"){
-            // Logic ini perlu penambahan UI interaktif.
-        }
-        
-        if(!c.Effect.StartsWith("VP:") && c.Effect != "BlockSteal" && c.Effect != "Swap"){
-            self.CustHand.Remove(c);
-        }
-        
+        turn.uiController = this;
+        turn.Init();
+        EndTurnButton.onClick.AddListener(() => { turn.Next(); });
         Refresh();
     }
 
-    void Clear(Transform t){ for(int i=t.childCount-1;i>=0;i--) Destroy(t.GetChild(i).gameObject); }
+    public void SpawnFloatingText(string msg, Vector3 pos)
+    {
+        if (floatingTextPrefab != null)
+        {
+            // Instantiate inside the Canvas (transform) so it renders on top
+            var txt = Instantiate(floatingTextPrefab, transform);
+            txt.transform.position = pos;
+            txt.Init(msg, new Color(1f, 0.8f, 0f)); // Gold Color
+        }
+    }
+
+    public void Refresh()
+    {
+        var pl = turn.Players[turn.Active];
+
+        string type = pl.IsAI ? "(AI)" : "(Human)";
+        TurnInfoText.text = $"ROUND {turn.RoundNumber} | {turn.Current}\nTURN: {pl.Character} {type}";
+
+        Clear(MarketPanel);
+        for (int i = 0; i < deck.ActiveMarket.Count; i++)
+        {
+            var m = deck.ActiveMarket[i];
+            var ui = Instantiate(MenuCardPrefab, MarketPanel);
+            ui.BindToMarket(m, i, deck, turn, cooking);
+
+            ui.transform.localScale = Vector3.zero;
+            StartCoroutine(AnimateScale(ui.transform));
+        }
+
+        Clear(PlayerHandPanel);
+        if (pl.Get(Ingredient.Goboy) > 0)
+        {
+            var ui = Instantiate(IngCardPrefab, PlayerHandPanel);
+            ui.Set(Ingredient.Goboy, pl.Get(Ingredient.Goboy), deck.GetSpriteForIngredient(Ingredient.Goboy));
+        }
+        foreach (var kv in pl.Inv)
+        {
+            if (kv.Key == Ingredient.Goboy || kv.Value == 0) continue;
+            var ui = Instantiate(IngCardPrefab, PlayerHandPanel);
+            ui.Set(kv.Key, kv.Value, deck.GetSpriteForIngredient(kv.Key));
+        }
+
+        Clear(PlayerCustPanel);
+        foreach (var c in pl.CustHand)
+        {
+            if (CustomerCardPrefab != null)
+            {
+                var ui = Instantiate(CustomerCardPrefab, PlayerCustPanel);
+                ui.Bind(c, pl, this);
+            }
+        }
+
+        bool showDraft = (turn.Current == Phase.Drafting && !pl.IsAI);
+        DraftPanel.gameObject.SetActive(showDraft);
+
+        if (draftAnimCoroutine != null) StopCoroutine(draftAnimCoroutine);
+        Clear(DraftPanel);
+
+        if (showDraft)
+        {
+            var hand = turn.DraftHands[turn.Active];
+            draftAnimCoroutine = StartCoroutine(SpawnDraftCardsStaggered(hand));
+        }
+
+        EndTurnButton.gameObject.SetActive(turn.Current == Phase.Cooking && !pl.IsAI);
+
+        if (turn.Current == Phase.Scoring && GameOverPanel != null)
+        {
+            GameOverPanel.SetActive(true);
+            var winner = turn.Players.OrderByDescending(p => p.VP).First();
+            if (WinnerText) WinnerText.text = $"WINNER:\n{winner.Character}\n({winner.VP} Points)";
+        }
+    }
+
+    public void ActivateCustomer(CustomerCardData c)
+    {
+        var p = turn.Players[turn.Active];
+
+        if (c.Effect.StartsWith("Add:"))
+        {
+            string ingName = c.Effect.Split(':')[1];
+            if (System.Enum.TryParse(ingName, out Ingredient res))
+            {
+                p.Add(res, 1);
+                p.CustHand.Remove(c);
+                SpawnFloatingText($"+1 {res}", PlayerCustPanel.position); // Visual Pop
+                Refresh();
+            }
+        }
+        else if (c.Effect.StartsWith("Action:"))
+        {
+            PerformAction(p, c.Effect.Split(':')[1]);
+            p.CustHand.Remove(c);
+            Refresh();
+        }
+    }
+
+    void PerformAction(PlayerState self, string action)
+    {
+        int targetIdx = (self.Index + 1) % turn.PlayerCount;
+        var target = turn.Players[targetIdx];
+        bool hasSecurity = target.CustHand.Any(x => x.Effect == "Passive:BlockSteal");
+
+        if (action == "StealIng")
+        {
+            if (hasSecurity) { SpawnFloatingText("Blocked!", transform.position); return; }
+            var available = target.Inv.Where(x => x.Value > 0).Select(x => x.Key).ToList();
+            if (available.Count > 0)
+            {
+                Ingredient stolen = available[Random.Range(0, available.Count)];
+                target.Spend(stolen, 1); self.Add(stolen, 1);
+                SpawnFloatingText($"Stole {stolen}!", transform.position);
+            }
+        }
+        else if (action == "Draw2Keep1")
+        {
+            var ing = deck.DrawIng();
+            if (ing.HasValue)
+            {
+                self.Add(ing.Value, 1);
+                SpawnFloatingText($"+1 {ing.Value}", transform.position);
+            }
+        }
+    }
+
+    public void BackToMenu()
+    {
+        UnityEngine.SceneManagement.SceneManager.LoadScene("MainMenu");
+    }
+
+    IEnumerator SpawnDraftCardsStaggered(List<Ingredient> hand)
+    {
+        var handCopy = new List<Ingredient>(hand);
+        foreach (var ing in handCopy)
+        {
+            if (!DraftPanel.gameObject.activeInHierarchy) yield break;
+            var btn = Instantiate(DraftCardPrefab, DraftPanel);
+
+            var txt = btn.GetComponentInChildren<TMP_Text>();
+            if (txt != null) txt.text = ing.ToString();
+            var img = btn.GetComponent<Image>();
+            if (img != null) img.sprite = deck.GetSpriteForIngredient(ing);
+
+            var capIng = ing;
+            btn.onClick.AddListener(() => { turn.DraftPick(turn.Active, capIng); });
+            btn.transform.localScale = Vector3.zero;
+            StartCoroutine(AnimateScale(btn.transform));
+            yield return new WaitForSeconds(0.05f);
+        }
+    }
+
+    IEnumerator AnimateScale(Transform target)
+    {
+        float duration = 0.2f; float t = 0;
+        while (t < duration && target != null)
+        {
+            t += Time.deltaTime;
+            target.localScale = Vector3.one * Mathf.SmoothStep(0, 1, t / duration);
+            yield return null;
+        }
+        if (target != null) target.localScale = Vector3.one;
+    }
+    void Clear(Transform t) { foreach (Transform child in t) Destroy(child.gameObject); }
 }
