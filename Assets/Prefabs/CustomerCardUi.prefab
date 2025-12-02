@@ -369,6 +369,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::CustomerCardUI
   title: {fileID: 1526906930165128866}
   useBtn: {fileID: 929037699417646910}
+  iconDisplay: {fileID: 3415115860828051601}
 --- !u!1 &6325383464828831885
 GameObject:
   m_ObjectHideFlags: 0
@@ -501,6 +502,7 @@ GameObject:
   - component: {fileID: 1950565187286497708}
   - component: {fileID: 3022470262861193808}
   - component: {fileID: 3415115860828051601}
+  - component: {fileID: 2811760934236180276}
   m_Layer: 5
   m_Name: Image
   m_TagString: Untagged
@@ -524,8 +526,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 8.1174}
-  m_SizeDelta: {x: 100, y: 100}
+  m_AnchoredPosition: {x: -0.00048065, y: -0.00047874}
+  m_SizeDelta: {x: 146.78, y: 200}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &3022470262861193808
 CanvasRenderer:
@@ -548,7 +550,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 0.94269866, b: 0, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -565,3 +567,42 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &2811760934236180276
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7663173649006221366}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fd587cc44523a104c8d9f32ede7e4dbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DeckManager
+  ingredientSprites: []
+  menuSprites: []
+  customerSprites:
+  - idName: Butcher
+    icon: {fileID: -4810549289877207570, guid: 2c0187a2339a1d349acf8dbe625882de, type: 3}
+  - idName: Spicemonger
+    icon: {fileID: -1664111138826355439, guid: 2e9cb05472bbcc543ae36728cefeb3f7, type: 3}
+  - idName: Influencer
+    icon: {fileID: -6346216357205161634, guid: d7b3562408fcdaf4193ab0974c751528, type: 3}
+  - idName: Primadonna
+    icon: {fileID: 5013406735163954867, guid: f4656186752406d43a4bc1d122db7756, type: 3}
+  - idName: Security
+    icon: {fileID: 8282848358830805105, guid: 9d8b229954e321a4c9c50611a6882c7a, type: 3}
+  - idName: Foodie
+    icon: {fileID: 2761948502119545576, guid: dfeb68b5d36256a4f86b21b3bdb76717, type: 3}
+  - idName: Mobster
+    icon: {fileID: 4773402161138102713, guid: 483ac5a68e6984f469e25e254eaa33c3, type: 3}
+  - idName: Travelling Merchant
+    icon: {fileID: -3456532010920386237, guid: 98505a3590b2cf6469a07c17f522d9c4, type: 3}
+  - idName: Thief
+    icon: {fileID: -2262647735747319561, guid: 5c39f1b121138fd4683748ac16ae07ff, type: 3}
+  - idName: Thief
+    icon: {fileID: -2262647735747319561, guid: 5c39f1b121138fd4683748ac16ae07ff, type: 3}
+  - idName: Singer
+    icon: {fileID: -1896676512465112861, guid: cfd18e912b3623643986e84be2deba66, type: 3}
+  - idName: Thief
+    icon: {fileID: -2262647735747319561, guid: 5c39f1b121138fd4683748ac16ae07ff, type: 3}

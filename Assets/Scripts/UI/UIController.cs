@@ -39,6 +39,26 @@ public class UIController : MonoBehaviour {
         //turn.HandleTurn(); 
     }
 
+    void Update()
+    {
+        // Cek jika tombol TAB ditekan (untuk menampilkan/menyembunyikan live leaderboard)
+        if (Input.GetKeyDown(KeyCode.Tab))
+        {
+            // Panggil fungsi toggle yang sekaligus merefresh data skor
+            leaderboard.ToggleAndRefresh(turn.Players);
+        }
+
+        // Cek jika tombol ESCAPE ditekan (untuk menyembunyikan leaderboard live)
+        // Jika sedang di fase Scoring, leaderboard tidak akan ditutup oleh ESC
+        else if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            if (leaderboard.leaderboardPanel.activeSelf && turn.Current != Phase.Scoring)
+            {
+                leaderboard.ClosePanel();
+            }
+        }
+    }
+
     public void Refresh(){
         var pl = turn.Players[turn.Active];
         
@@ -69,13 +89,8 @@ public class UIController : MonoBehaviour {
             if (leaderboard != null) 
             {
                 leaderboard.OpenPanel();
-                leaderboard.DisplayScores(turn.Players); // Kirim data pemain ke leaderboard
-            }
-        } else { 
-            // Tambahkan ini untuk memastikan leaderboard tertutup jika game berlanjut
-            if (leaderboard != null && leaderboard.leaderboardPanel.activeSelf)
-            {
-                leaderboard.ClosePanel();
+                // PERUBAHAN: Set isFinalScoring menjadi TRUE
+                leaderboard.DisplayScores(turn.Players, true); // Kirim data pemain ke leaderboard
             }
         }
 

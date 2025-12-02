@@ -11,11 +11,70 @@ public class DeckManager : MonoBehaviour {
     Stack<MenuCardData> menuDeck;
     Stack<CustomerCardData> custDeck;
 
+    [Header("Sprite Assets")]
+    [SerializeField] private List<IngredientSpriteData> ingredientSprites;
+    [SerializeField] private List<CardSpriteData> menuSprites;
+    [SerializeField] private List<CardSpriteData> customerSprites;
+
+    // Dictionary untuk pencarian cepat (Nama -> Gambar)
+    private Dictionary<Ingredient, Sprite> ingSpriteDict;
+    private Dictionary<string, Sprite> menuSpriteDict;
+    private Dictionary<string, Sprite> custSpriteDict;
+
+    [System.Serializable]
+    public struct IngredientSpriteData {
+        public Ingredient type;
+        public Sprite icon;
+    }
+
+    [System.Serializable]
+    public struct CardSpriteData {
+        public string idName; // Harus sama persis dengan nama di kode (contoh: "Nasi Goreng")
+        public Sprite icon;
+    }
+
+    void Awake() {
+        InitializeSpriteDictionaries();
+    }
+
     public void Init(){
+        // Pastikan dictionary ada (jaga-jaga jika Awake tidak jalan karena script mati)
+        if (ingSpriteDict == null) InitializeSpriteDictionaries(); 
+
         ingDeck = BuildIng();
         menuDeck = BuildMenus();
         custDeck = BuildCustomers();
     }
+
+    // Mengubah List dari Inspector menjadi Dictionary agar mudah diambil
+   void InitializeSpriteDictionaries() {
+        // Tambahkan null check untuk list inspector agar tidak error jika kosong
+        ingSpriteDict = new Dictionary<Ingredient, Sprite>();
+        if (ingredientSprites != null) {
+            foreach(var item in ingredientSprites) {
+                if(!ingSpriteDict.ContainsKey(item.type)) ingSpriteDict.Add(item.type, item.icon);
+            }
+        }
+
+        menuSpriteDict = new Dictionary<string, Sprite>();
+        if (menuSprites != null) {
+            foreach(var item in menuSprites) {
+                if(!menuSpriteDict.ContainsKey(item.idName)) menuSpriteDict.Add(item.idName, item.icon);
+            }
+        }
+
+        custSpriteDict = new Dictionary<string, Sprite>();
+        if (customerSprites != null) {
+            foreach(var item in customerSprites) {
+                if(!custSpriteDict.ContainsKey(item.idName)) custSpriteDict.Add(item.idName, item.icon);
+            }
+        }
+    }
+
+    // Helper untuk mengambil gambar dengan aman
+    Sprite GetIngSprite(Ingredient type) => ingSpriteDict.ContainsKey(type) ? ingSpriteDict[type] : null;
+    Sprite GetMenuSprite(string name) => menuSpriteDict.ContainsKey(name) ? menuSpriteDict[name] : null;
+    Sprite GetCustSprite(string name) => custSpriteDict.ContainsKey(name) ? custSpriteDict[name] : null;
 
     Stack<Ingredient> BuildIng(){
         var list = new List<Ingredient>();
@@ -30,9 +89,24 @@ public class DeckManager : MonoBehaviour {
         Shuffle(list);
         return new Stack<Ingredient>(list);
     }
-
+     // Fungsi helper tambahan untuk memudahkan akses sprite ingredient dari luar
+    public Sprite GetSpriteForIngredient(Ingredient ing) {
+        return GetIngSprite(ing);
+    }
     Stack<MenuCardData> BuildMenus(){
         var L = new List<MenuCardData>();
+        MenuCardData Create(string name, int vp, (Ingredient, int) req, params (Ingredient, int)[] more) {
+             var m = Menu(name, vp, req, more);
+             m.Icon = GetMenuSprite(name); // Set Gambar disini
+             return m;
+        }
+
+        // Overload untuk yang ada optional ingredients
+        MenuCardData CreateOpt(string name, int vp, (Ingredient, int, int) opt, (Ingredient, int) req, params (Ingredient, int)[] more) {
+             var m = Menu(name, vp, opt, req, more);
+             m.Icon = GetMenuSprite(name); // Set Gambar disini
+             return m;
+        }
         L.Add(Menu("Nasi Kecap", 2, opt:(Ingredient.Krupuk, 2, 1), req:(Ingredient.Sayur, 1)));
         L.Add(Menu("Bebek Goreng", 2, opt:(Ingredient.Cabe, 2, 1), req:(Ingredient.Daging, 2)));
         L.Add(Menu("Soto Daging", 2, opt:(Ingredient.Cabe, 2, 1), req:(Ingredient.Nasi, 1), (Ingredient.Daging, 1)));
@@ -56,22 +130,32 @@ public class DeckManager : MonoBehaviour {
     }
 
     Stack<CustomerCardData> BuildCustomers(){
+        // Helper singkat untuk membuat customer + gambar
+        CustomerCardData C(string name, string eff, int vp = 0) {
+            return new CustomerCardData { 
+                Name = name, 
+                Effect = eff, 
+                VP = vp,
+                Icon = GetCustSprite(name) // <--- Ini baris kuncinya, dia mengambil gambar
+            };
+        }
         var L = new List<CustomerCardData>{
-            new CustomerCardData{ Name="Grocer", Effect="Add:Sayur" },
-            new CustomerCardData{ Name="Rice Vendor", Effect="Add:Nasi" },
-            new CustomerCardData{ Name="Butcher", Effect="Add:Daging" },
-            new CustomerCardData{ Name="Tofu Seller", Effect="Add:Tahu" },
-            new CustomerCardData{ Name="Spicemonger", Effect="Add:Bumbu" },
-            new CustomerCardData{ Name="Thief", Effect="StealIng" },
-            new CustomerCardData{ Name="Political Candidate", Effect="Draw2Keep1" },
-            new CustomerCardData{ Name="Singer", Effect="VP:+3", VP=3 },
-            new CustomerCardData{ Name="Travelling Merchant", Effect="Swap" },
-            new CustomerCardData{ Name="Mobster", Effect="VP:-1", VP=-1 },
-            new CustomerCardData{ Name="Foodie", Effect="VP:+2", VP=2 },
-            new CustomerCardData{ Name="Security", Effect="BlockSteal" },
-            new CustomerCardData{ Name="Primadonna", Effect="VP:+4", VP=4 },
-            new CustomerCardData{ Name="Influencer", Effect="StealSkill" }
+            C("Grocer", "Add:Sayur"),
+            C("Rice Vendor", "Add:Nasi"),
+            C("Butcher", "Add:Daging"),
+            C("Tofu Seller", "Add:Tahu"),
+            C("Spicemonger", "Add:Bumbu"),
+            C("Thief", "StealIng"),
+            C("Political Candidate", "Draw2Keep1"), // Sekarang gambar akan terisi
+            C("Singer", "VP:+3", 3),
+            C("Travelling Merchant", "Swap"),
+            C("Mobster", "VP:-1", -1),
+            C("Foodie", "VP:+2", 2),
+            C("Security", "BlockSteal"),
+            C("Primadonna", "VP:+4", 4),
+            C("Influencer", "StealSkill")
         };
+        
         Shuffle(L);
         return new Stack<CustomerCardData>(L);
     }

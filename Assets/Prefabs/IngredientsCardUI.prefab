@@ -229,6 +229,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::IngredientCounterUI
   label: {fileID: 8824070561524963943}
+  iconDisplay: {fileID: 2312423525391186451}
 --- !u!1 &3681611144474178652
 GameObject:
   m_ObjectHideFlags: 0
@@ -240,6 +241,7 @@ GameObject:
   - component: {fileID: 5195869187612297850}
   - component: {fileID: 4985748514385723765}
   - component: {fileID: 2312423525391186451}
+  - component: {fileID: 8058170061091654748}
   m_Layer: 5
   m_Name: Image
   m_TagString: Untagged
@@ -263,8 +265,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0.5074, y: -11.6686}
-  m_SizeDelta: {x: 101.0147, y: 139.5721}
+  m_AnchoredPosition: {x: 0.0010185, y: -0.0011339}
+  m_SizeDelta: {x: 146.78, y: 200}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &4985748514385723765
 CanvasRenderer:
@@ -287,7 +289,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 0.94269866, b: 0, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -304,3 +306,34 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &8058170061091654748
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3681611144474178652}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fd587cc44523a104c8d9f32ede7e4dbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DeckManager
+  ingredientSprites:
+  - type: 0
+    icon: {fileID: 9135130128162984572, guid: 5b31d3112fcf7f648b280c959bcd8fe8, type: 3}
+  - type: 1
+    icon: {fileID: -1317971224221156443, guid: ec6954d042581f348a3cf409e4d4272e, type: 3}
+  - type: 2
+    icon: {fileID: 5274777528957154086, guid: f6c410795933a6f4ba64bf62ac34b3d3, type: 3}
+  - type: 3
+    icon: {fileID: -5709644183055138361, guid: d9f84b4e9c54a4c4783948e335d2afe9, type: 3}
+  - type: 4
+    icon: {fileID: 7633656633571885905, guid: fe912284c429f924993c97c8be857725, type: 3}
+  - type: 5
+    icon: {fileID: -94885433503733781, guid: 9857981e210cefd4dbfdc98ea70cf4fc, type: 3}
+  - type: 6
+    icon: {fileID: 7467552774148161112, guid: 25b0b46f7c4c1b44aab0de392789dc2e, type: 3}
+  - type: 7
+    icon: {fileID: -7945066143418654978, guid: 52621238e58dc4b4084b1694740a26c6, type: 3}
+  menuSprites: []
+  customerSprites: []
