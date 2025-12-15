@@ -877,7 +877,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 296053463}
         m_TargetAssemblyTypeName: EmojiManager, Assembly-CSharp
         m_MethodName: OnEmojiClicked
         m_Mode: 2
@@ -6042,7 +6042,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 296053463}
         m_TargetAssemblyTypeName: EmojiManager, Assembly-CSharp
         m_MethodName: OnEmojiClicked
         m_Mode: 2
@@ -6453,6 +6453,10 @@ GameObject:
   - component: {fileID: 1641163959}
   - component: {fileID: 1641163958}
   - component: {fileID: 1641163957}
+  - component: {fileID: 1641163965}
+  - component: {fileID: 1641163964}
+  - component: {fileID: 1641163963}
+  - component: {fileID: 1641163962}
   m_Layer: 0
   m_Name: Core
   m_TagString: Untagged
@@ -6472,22 +6476,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e5295879091a8dc4583a42c8ee744e87, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UIController
-  turn: {fileID: 1641163960}
-  deck: {fileID: 1641163959}
-  cooking: {fileID: 1641163958}
-  MarketPanel: {fileID: 1734726339}
-  PlayerHandPanel: {fileID: 1244853900}
-  PlayerCustPanel: {fileID: 503367741}
-  DraftPanel: {fileID: 1203059612}
-  TurnInfoText: {fileID: 614700847}
-  EndTurnButton: {fileID: 1498454463}
-  MenuCardPrefab: {fileID: 4809446369848655669, guid: 21684d2a7ef235c41950352b411acd1f, type: 3}
-  IngCardPrefab: {fileID: -6018150846274182343, guid: 7ef7a8d55241de646a7db1483da06f3e, type: 3}
-  DraftCardPrefab: {fileID: 118399671603404835, guid: 010fda8b33519b547aaafdccec85301a, type: 3}
-  CustomerCardPrefab: {fileID: 4540829738133290962, guid: 2cf4ae2c8a672064ea4b26514deed5cf, type: 3}
-  floatingTextPrefab: {fileID: 2136180011628797244, guid: beb20fb07f02d344083ead70a9132455, type: 3}
-  GameOverPanel: {fileID: 0}
-  WinnerText: {fileID: 0}
 --- !u!114 &1641163958
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6500,7 +6488,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1c232318ef4d6424787b1558a16d53b5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CookingSystem
-  deck: {fileID: 1641163959}
 --- !u!114 &1641163959
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6513,57 +6500,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fd587cc44523a104c8d9f32ede7e4dbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DeckManager
-  allMenuCards:
-  - {fileID: 11400000, guid: 38ab8235edd533446bd70823c9f04762, type: 2}
-  - {fileID: 11400000, guid: a2072cb6cec4f624a9afeec2785dfd56, type: 2}
-  - {fileID: 11400000, guid: d93f3b015867cb1408ad3c5c870c8d52, type: 2}
-  - {fileID: 11400000, guid: 44df50396edf5954a9295c01b18c728d, type: 2}
-  - {fileID: 11400000, guid: 9f3563169d2215149b50b4e2f75f5650, type: 2}
-  - {fileID: 11400000, guid: 132584f10bcc57a44811b9708e4d3b3b, type: 2}
-  - {fileID: 11400000, guid: 1f0c470bc91121e478e858d7675cfddf, type: 2}
-  - {fileID: 11400000, guid: 403cfea64e883ad4d8a601c24cf73aa7, type: 2}
-  - {fileID: 11400000, guid: 03a0461b57730fc408d03f9bdaddff5d, type: 2}
-  - {fileID: 11400000, guid: a30d3665c90bc784e993d3ed0e35a96c, type: 2}
-  - {fileID: 11400000, guid: 0c96a957392921e48b7ce6913caee983, type: 2}
-  - {fileID: 11400000, guid: c2983d17123fcd040be93c20ff03b770, type: 2}
-  - {fileID: 11400000, guid: 5fbd23c5e40a2ee448c4b89ebf426710, type: 2}
-  - {fileID: 11400000, guid: da6c87bb763145f43bb135c3f4fff8bf, type: 2}
-  - {fileID: 11400000, guid: 83c4ac1e4defdd046a3b9bb972147424, type: 2}
-  - {fileID: 11400000, guid: 88a58ebe95aa1d1488827d2efb46cadd, type: 2}
-  - {fileID: 11400000, guid: abe4061097b04d442a72235a09109d52, type: 2}
-  - {fileID: 11400000, guid: ddad6bd254f5252498e9224ecb0986ca, type: 2}
-  allCustomerCards:
-  - {fileID: 11400000, guid: 55892b083e21859469dffd24f301b148, type: 2}
-  - {fileID: 11400000, guid: fa7dc424fc0df6c41ad507217be46cea, type: 2}
-  - {fileID: 11400000, guid: 4e0159f3b5c39344fa4f233e7a7b1b29, type: 2}
-  - {fileID: 11400000, guid: 9fa6b4d3c0e2ddc42a60463f26f3a748, type: 2}
-  - {fileID: 11400000, guid: 6ed285b1089d2c24a893f7c296f7b85b, type: 2}
-  - {fileID: 11400000, guid: a2123cb03be1ff1428679c28a3d48305, type: 2}
-  - {fileID: 11400000, guid: 5b2220e274cd96a498696afdc305e815, type: 2}
-  - {fileID: 11400000, guid: ff40e8eeae47ef84da550cd79b27cf2a, type: 2}
-  - {fileID: 11400000, guid: 6d8ce0e729851ad45b340cf6bbf70997, type: 2}
-  - {fileID: 11400000, guid: 4bd5520b007a52d4ea9ad7e636d2f43d, type: 2}
-  - {fileID: 11400000, guid: a9cc5c59f023886489237afe6dba6fab, type: 2}
-  - {fileID: 11400000, guid: 244c4e8d1a8d5ed4da4b8d917d28504e, type: 2}
-  - {fileID: 11400000, guid: c3aa10adad86b5043a124ddc3575a3c5, type: 2}
-  - {fileID: 11400000, guid: a38ef3745ffbbf7449cf52cd237a9b90, type: 2}
-  ingredientSprites:
-  - type: 0
-    icon: {fileID: 9135130128162984572, guid: 5b31d3112fcf7f648b280c959bcd8fe8, type: 3}
-  - type: 1
-    icon: {fileID: -1317971224221156443, guid: ec6954d042581f348a3cf409e4d4272e, type: 3}
-  - type: 2
-    icon: {fileID: 5274777528957154086, guid: f6c410795933a6f4ba64bf62ac34b3d3, type: 3}
-  - type: 3
-    icon: {fileID: -5709644183055138361, guid: d9f84b4e9c54a4c4783948e335d2afe9, type: 3}
-  - type: 4
-    icon: {fileID: 7633656633571885905, guid: fe912284c429f924993c97c8be857725, type: 3}
-  - type: 5
-    icon: {fileID: -94885433503733781, guid: 9857981e210cefd4dbfdc98ea70cf4fc, type: 3}
-  - type: 6
-    icon: {fileID: 7467552774148161112, guid: 25b0b46f7c4c1b44aab0de392789dc2e, type: 3}
-  - type: 7
-    icon: {fileID: -7945066143418654978, guid: 52621238e58dc4b4084b1694740a26c6, type: 3}
 --- !u!114 &1641163960
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6576,13 +6512,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1d0157accbf6f864ea109ab6fa4ea39b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TurnManager
-  PlayerCount: 4
-  Active: 0
-  Current: 0
-  RoundNumber: 0
-  deck: {fileID: 1641163959}
-  uiController: {fileID: 1641163957}
-  cookingSystem: {fileID: 1641163958}
 --- !u!4 &1641163961
 Transform:
   m_ObjectHideFlags: 0
@@ -6598,6 +6527,126 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1641163962
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1641163956}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cbbe7c126979a9d468ba6612ccb015ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UIController
+  turn: {fileID: 1641163963}
+  deck: {fileID: 1641163964}
+  cooking: {fileID: 1641163965}
+  MarketPanel: {fileID: 1734726339}
+  PlayerHandPanel: {fileID: 1244853900}
+  PlayerCustPanel: {fileID: 503367741}
+  DraftPanel: {fileID: 1203059612}
+  TurnInfoText: {fileID: 614700847}
+  EndTurnButton: {fileID: 1498454463}
+  MenuCardPrefab: {fileID: 6606627119606315656, guid: 21684d2a7ef235c41950352b411acd1f, type: 3}
+  IngCardPrefab: {fileID: 8868809752469765427, guid: 7ef7a8d55241de646a7db1483da06f3e, type: 3}
+  DraftCardPrefab: {fileID: 118399671603404835, guid: 010fda8b33519b547aaafdccec85301a, type: 3}
+  CustomerCardPrefab: {fileID: 8481212763126011344, guid: 2cf4ae2c8a672064ea4b26514deed5cf, type: 3}
+  floatingTextPrefab: {fileID: 2136180011628797244, guid: beb20fb07f02d344083ead70a9132455, type: 3}
+  GameOverPanel: {fileID: 0}
+  WinnerText: {fileID: 0}
+--- !u!114 &1641163963
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1641163956}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a7fae0bda3c795c4c8d431546557fec8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TurnManager
+  PlayerCount: 4
+  Active: 0
+  Current: 0
+  RoundNumber: 0
+  deck: {fileID: 1641163964}
+  uiController: {fileID: 1641163962}
+  cookingSystem: {fileID: 1641163965}
+--- !u!114 &1641163964
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1641163956}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1cf544dfea63719439145a07ef85eaec, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DeckManager
+  allMenuCards:
+  - {fileID: 11400000, guid: 4bbf734d5ecd8084da519b5dc474a6d6, type: 2}
+  - {fileID: 11400000, guid: 08ad6aa521e69c341a378a8a6aae2988, type: 2}
+  - {fileID: 11400000, guid: f243e835c9921c94998ecfe6537ab225, type: 2}
+  - {fileID: 11400000, guid: fa8b27ad44e9f8f4f8a3db40614d4105, type: 2}
+  - {fileID: 11400000, guid: 16d9226514e54de4582111948d6bbb15, type: 2}
+  - {fileID: 11400000, guid: 6a9a730d9422a48489ecfd375ad1a40f, type: 2}
+  - {fileID: 11400000, guid: 6f871216253e92d4bbe48e3df3a6ca4f, type: 2}
+  - {fileID: 11400000, guid: 00cdbb4cfd9188a43bb4b29b605db864, type: 2}
+  - {fileID: 11400000, guid: 63b826c76f8c0bc4ea0001bd4983e2d2, type: 2}
+  - {fileID: 11400000, guid: c131c72ecc3ca704c999c0680aaf2282, type: 2}
+  - {fileID: 11400000, guid: 37ed1c998cc9cb046b6db1836d99e166, type: 2}
+  - {fileID: 11400000, guid: 822eeed1738789346bbde16916588cf9, type: 2}
+  - {fileID: 11400000, guid: 235552d8d0c70834794f5bc80995fbf5, type: 2}
+  - {fileID: 11400000, guid: b35eca728ba250947bb0e754c3512ef0, type: 2}
+  - {fileID: 11400000, guid: 9b10fcefcece9fa4298e58582555373f, type: 2}
+  - {fileID: 11400000, guid: 48a420e12ad8ff44789f679d0b09ef5e, type: 2}
+  - {fileID: 11400000, guid: dc71dd62cb9da5c49996d61afaa387cd, type: 2}
+  allCustomerCards:
+  - {fileID: 11400000, guid: eb3dce73b5a3d144484ad346ec5c4ed8, type: 2}
+  - {fileID: 11400000, guid: 40517b1480c13ea4db90c8b76f6a98d7, type: 2}
+  - {fileID: 11400000, guid: 2577d3ba1da2a464f968d3c65afa586c, type: 2}
+  - {fileID: 11400000, guid: 77eb3b23d7d699647857697fdeca5507, type: 2}
+  - {fileID: 11400000, guid: 912a3eebd39d9c441ab344c4bc524db8, type: 2}
+  - {fileID: 11400000, guid: f9c5312f7916cfd48a779f24f2f381ba, type: 2}
+  - {fileID: 11400000, guid: deb83e033c5e6b34289504256cb37193, type: 2}
+  - {fileID: 11400000, guid: 89f9e6d196636694d8d4c8bbdc460656, type: 2}
+  - {fileID: 11400000, guid: 8ad90bc174a78ad4baccfde6134677f1, type: 2}
+  - {fileID: 11400000, guid: b3b848dc21737314eb2dfdecab14db20, type: 2}
+  - {fileID: 11400000, guid: 98f1f8477b645314899c1592bed49adc, type: 2}
+  - {fileID: 11400000, guid: f0bd67d8bb256694b83878cf5bb7bd21, type: 2}
+  - {fileID: 11400000, guid: 0811d9f2d8f39ad489c6731b45ef28c4, type: 2}
+  - {fileID: 11400000, guid: 0e51e95b76a3d7348accb250ba41c073, type: 2}
+  ingredientSprites:
+  - type: 0
+    icon: {fileID: 9135130128162984572, guid: 5b31d3112fcf7f648b280c959bcd8fe8, type: 3}
+  - type: 1
+    icon: {fileID: -1317971224221156443, guid: ec6954d042581f348a3cf409e4d4272e, type: 3}
+  - type: 2
+    icon: {fileID: 5274777528957154086, guid: f6c410795933a6f4ba64bf62ac34b3d3, type: 3}
+  - type: 4
+    icon: {fileID: 7633656633571885905, guid: fe912284c429f924993c97c8be857725, type: 3}
+  - type: 5
+    icon: {fileID: -94885433503733781, guid: 9857981e210cefd4dbfdc98ea70cf4fc, type: 3}
+  - type: 6
+    icon: {fileID: 7467552774148161112, guid: 25b0b46f7c4c1b44aab0de392789dc2e, type: 3}
+  - type: 7
+    icon: {fileID: -7945066143418654978, guid: 52621238e58dc4b4084b1694740a26c6, type: 3}
+--- !u!114 &1641163965
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1641163956}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6aee3c9fe2d57f24cb1432b67defcb4b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CookingSystem
+  deck: {fileID: 1641163964}
 --- !u!1 &1669160064
 GameObject:
   m_ObjectHideFlags: 0
@@ -7051,7 +7100,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 296053463}
         m_TargetAssemblyTypeName: EmojiManager, Assembly-CSharp
         m_MethodName: OnEmojiClicked
         m_Mode: 2
@@ -8690,7 +8739,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 296053463}
         m_TargetAssemblyTypeName: EmojiManager, Assembly-CSharp
         m_MethodName: OnEmojiClicked
         m_Mode: 2

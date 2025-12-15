@@ -149,7 +149,8 @@ GameObject:
   - component: {fileID: 4328871439043527035}
   - component: {fileID: 6602274669763887162}
   - component: {fileID: 6128771987222465445}
-  - component: {fileID: -6018150846274182343}
+  - component: {fileID: 8868809752469765427}
+  - component: {fileID: -6340406130408777097}
   m_Layer: 5
   m_Name: IngredientsCardUI
   m_TagString: Untagged
@@ -216,7 +217,21 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &-6018150846274182343
+--- !u!114 &8868809752469765427
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2333192526003330185}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4b3115dded582854c98f2e02c1503b1a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::IngredientCounterUI
+  label: {fileID: 0}
+  iconDisplay: {fileID: 0}
+--- !u!114 &-6340406130408777097
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -225,11 +240,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 2333192526003330185}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 19e0611a0686e564db5c096f5cafef63, type: 3}
+  m_Script: {fileID: 11500000, guid: 4b3115dded582854c98f2e02c1503b1a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::IngredientCounterUI
-  label: {fileID: 8824070561524963943}
-  iconDisplay: {fileID: 2312423525391186451}
+  label: {fileID: 0}
+  iconDisplay: {fileID: 0}
 --- !u!1 &3681611144474178652
 GameObject:
   m_ObjectHideFlags: 0
@@ -241,7 +256,6 @@ GameObject:
   - component: {fileID: 5195869187612297850}
   - component: {fileID: 4985748514385723765}
   - component: {fileID: 2312423525391186451}
-  - component: {fileID: 8058170061091654748}
   m_Layer: 5
   m_Name: Image
   m_TagString: Untagged
@@ -306,34 +320,3 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &8058170061091654748
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3681611144474178652}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fd587cc44523a104c8d9f32ede7e4dbb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::DeckManager
-  ingredientSprites:
-  - type: 0
-    icon: {fileID: 9135130128162984572, guid: 5b31d3112fcf7f648b280c959bcd8fe8, type: 3}
-  - type: 1
-    icon: {fileID: -1317971224221156443, guid: ec6954d042581f348a3cf409e4d4272e, type: 3}
-  - type: 2
-    icon: {fileID: 5274777528957154086, guid: f6c410795933a6f4ba64bf62ac34b3d3, type: 3}
-  - type: 3
-    icon: {fileID: -5709644183055138361, guid: d9f84b4e9c54a4c4783948e335d2afe9, type: 3}
-  - type: 4
-    icon: {fileID: 7633656633571885905, guid: fe912284c429f924993c97c8be857725, type: 3}
-  - type: 5
-    icon: {fileID: -94885433503733781, guid: 9857981e210cefd4dbfdc98ea70cf4fc, type: 3}
-  - type: 6
-    icon: {fileID: 7467552774148161112, guid: 25b0b46f7c4c1b44aab0de392789dc2e, type: 3}
-  - type: 7
-    icon: {fileID: -7945066143418654978, guid: 52621238e58dc4b4084b1694740a26c6, type: 3}
-  menuSprites: []
-  customerSprites: []

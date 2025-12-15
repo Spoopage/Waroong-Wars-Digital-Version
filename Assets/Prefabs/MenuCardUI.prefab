@@ -270,7 +270,7 @@ GameObject:
   - component: {fileID: 8773526616418041256}
   - component: {fileID: 1712670941592354676}
   - component: {fileID: 4978637858874342582}
-  - component: {fileID: 4809446369848655669}
+  - component: {fileID: 6606627119606315656}
   m_Layer: 5
   m_Name: MenuCardUI
   m_TagString: Untagged
@@ -336,7 +336,7 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &4809446369848655669
+--- !u!114 &6606627119606315656
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -345,12 +345,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 7014398863356380090}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 03ac56bba4bcf5240b0db73a72bb2307, type: 3}
+  m_Script: {fileID: 11500000, guid: 977608f719acd8a408dbcaac45198f42, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MenuCardUI
   titleText: {fileID: 0}
   vpText: {fileID: 0}
-  iconImage: {fileID: 4978637858874342582}
+  iconImage: {fileID: 0}
   ingredientsContainer: {fileID: 0}
   ingredientIconPrefab: {fileID: 0}
   actionButton: {fileID: 6459973657101872421}

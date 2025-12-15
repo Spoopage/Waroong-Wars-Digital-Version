@@ -15,6 +15,7 @@ public struct OptionalBonusEntry
     public int vpBonus;
 }
 
+[System.Serializable]
 [CreateAssetMenu(fileName = "NewMenuCard", menuName = "Waroong/Menu Card")]
 public class MenuCardSO : ScriptableObject
 {
